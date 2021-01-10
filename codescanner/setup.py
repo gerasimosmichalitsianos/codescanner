@@ -1,5 +1,4 @@
 from distutils.core import setup
-
 setup(
     name='codescanner',
     version='1.0.0',
