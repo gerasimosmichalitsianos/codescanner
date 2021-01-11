@@ -35,6 +35,7 @@ Alternatively, after checking out the code, you could simply do the following:
        (2) shellcheck
        (3) cppecheck
        (4) flawfinder
+       (5) count lines of code (cloc)
 
 ## @author: 
        Gerasimos Michalitsianos
