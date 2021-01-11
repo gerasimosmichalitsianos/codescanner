@@ -16,7 +16,7 @@ Requires docker (https://www.docker.com/) to be installed onto your system.
 Once you build the docker image from the installation above, you just specify the
 input directory of your source codes to be scanned, and run the docker container:
        
-       $ DIR=/home/gmichali/CCAP_MiRS_v1-0_20201228_FilesToReview
+       $ DIR=/home/my/directory/with/some/source/codes
        $ docker run -v $DIR:$DIR codescanner --directory $DIR
        
 This is the recommended usage.
