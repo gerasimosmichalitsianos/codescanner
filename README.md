@@ -68,18 +68,18 @@ to run this code directly with your local python interpreter (e.g. **/usr/bin/py
     the top of the file. Note that machine-generated files do not need such headers, and may
     be reported as false positives.
     
-  **ii. system() calls are parsed and reported ** 
+  **ii. system() calls are parsed and reported** 
            
     It is important for the variables or strings inside system() calls to be well-parameterized.
     The system() calls are written to the output report so the programmer may check to see all
     are well-parameterized.
     
-  **iii. long source code lines **
+  **iii. long source code lines**
 
     Lines that are longer than 120 characters are reported to the final CodeScanner output report.
     It is best practice that source code lines should be 120 characters or less.
     
-  **iv. Comparisons using == , !=, /= , or other similar operators **
+  **iv. Comparisons using == , !=, /= , or other similar operators**
   
      
   
