@@ -96,7 +96,7 @@ to run this code directly with your local python interpreter (e.g. **/usr/bin/py
     configuration files or something similar. This item writes out possible instances of 
     hard-coded IP addresses. Again, false-positives are possible.
     
-  **vii. Possible instances of hard-coded directories or filenames **
+  **vii. Possible instances of hard-coded directories or filenames**
   
     Possible instances of hard-coded directories or filenames are reported. It is recommended
     that these be placed into configuration files (e.g. yaml). Such instances of these are
@@ -120,7 +120,9 @@ to run this code directly with your local python interpreter (e.g. **/usr/bin/py
     
   **xi. Usage of Magic Numbers**
   
-
+    Instances of possible magic numbers are reported for all languages. Magic numbers
+    are hard-coded numbers that often appear in conditional statements (e.g. if, else,
+    while statements); these numbers should be parameterized if possible.
 
 ## @author: 
     Gerasimos Michalitsianos
