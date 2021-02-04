@@ -1,17 +1,18 @@
 # codescanner
 
 This is a Python 3 command-line program to scan scientific source codes for security flaws,
-as well as raise warnings and flags for best scientific coding practices. This code was developed
-in NOAA's Office of Satellite Products and Operations (NOAA/OSPO). To this end, it runs several
-well-known static command-line tools (cppcheck, flawfinder, shellcheck), as well as parses source
-codes manually and write an output text final report. This report will be present in the directory
-being scanned (the directory containing your source codes that is being analyzed).
+as well as raise warnings and flags for best as well as possible poor scientific programming practices. 
+This code was developed in NOAA's Office of Satellite Products and Operations (NOAA/OSPO). To this 
+end, it runs several well-known static command-line tools (**cppcheck**, **flawfinder**, **shellcheck**), as 
+well as parses source codes manually and write an output text final report. This report will be 
+present in the directory being scanned (the directory containing your source codes 
+that is being analyzed).
 
 For example, if your source-code directory contains Fortran 90 source files, this command-line tool
-will list those Fortran 90 source files that do not contain IMPLICIT NONE, whose use in Fortran 90
+will list those Fortran 90 source files that do not contain **IMPLICIT NONE**, whose use in Fortran 90
 is highly recommended. This program will also scan C/C++ source codes, if present, it make sure
-the NEW keyword is accompanied by a corresponding usage of delete [], that pointer variables 
-created with alloc() or malloc() are checked for allocation success (e.g. comparison to NULL
+the NEW keyword is accompanied by a corresponding usage of **delete []**, that pointer variables 
+created with **alloc()** or **malloc()** are checked for allocation success (e.g. comparison to NULL
 in an if-statement), and so on and so forth. All results are written to an a single output
 report, with the exception of the results from flawfinder, shellcheck, and cppcheck, which
 are written to their own separate text-files (which also go to the directory being scanned as their
