@@ -60,11 +60,13 @@ to run this code directly with your local python interpreter (e.g. **/usr/bin/py
 
 ## Items Covered
 
-    **i. Source code files that may lack proper header or prologue.**
+  **i. Source code files that may lack proper header or prologue.**
     
     It is important that scientific codes contain at least a few comments at the top of the
     source file to describe what the source file is used for. Or at least some sort of header
-    or prologue. 
+    or prologue. Those source file-names are reported that may lack a header or comments at
+    the top of the file. Note that machine-generated files do not need such headers, and may
+    be reported as false positives.
            
 
 ## @author: 
