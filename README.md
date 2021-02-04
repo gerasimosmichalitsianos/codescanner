@@ -10,8 +10,8 @@ that is being analyzed).
 
 For example, if your source-code directory contains Fortran 90 source files, this command-line tool
 will list those Fortran 90 source files that do not contain **IMPLICIT NONE**, whose use in Fortran 90
-is highly recommended. This program will also scan C/C++ source codes, if present, it make sure
-the NEW keyword is accompanied by a corresponding usage of **delete []**, that pointer variables 
+is highly recommended. This program will also scan C/C++ source codes, and if present, make sure
+the **new** keyword is accompanied by a corresponding usage of **delete []**, that pointer variables 
 created with **alloc()** or **malloc()** are checked for allocation success (e.g. comparison to NULL
 in an if-statement), and so on and so forth. All results are written to an a single output
 report, with the exception of the results from flawfinder, shellcheck, and cppcheck, which
@@ -60,4 +60,4 @@ Alternatively, after checking out the code, you could simply do the following:
 ## @author: 
     Gerasimos Michalitsianos
     gerasimosmichalitsianos@gmail.com
-    January 10th, 2021
+    4 February, 2021
