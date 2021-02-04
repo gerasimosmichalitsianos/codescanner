@@ -29,22 +29,31 @@ class directoryscanner(object):
     # Run flawfinder on the input directory
     # this looks at C/C++ codes
     # -------------------------------------
+
+    CCPPReader    = CCPPScanner( self.InputDirectory )
+    CCPPFileNames = CCPPReader.GetSourceCodeDirectoryFileNames() 
     
-    #FlawFinderFile = os.path.join( self.OutputDirectory, 'ALL_FLAWFINDER.txt' )
-    #if os.path.isfile( FlawFinderFile ): os.remove( FlawFinderFile )
-    #FlawFinderCommand = ' '.join( ['flawfinder --minlevel=5 --falsepositives --singleline ', \
-    #  self.InputDirectory,' 2>&1 | tee ', FlawFinderFile ])
-    #Scanner.RunCommand( FlawFinderCommand )
+    if len( CCPPFileNames )>0:
+      FlawFinderFile = os.path.join( self.OutputDirectory, 'ALL_FLAWFINDER.txt' )
+      if os.path.isfile( FlawFinderFile ): os.remove( FlawFinderFile )
+      FlawFinderCommand = ' '.join( ['flawfinder --minlevel=5 --falsepositives --singleline ', \
+        self.InputDirectory,' 2>&1 | tee ', FlawFinderFile ])
+      Scanner.RunCommand( FlawFinderCommand )
     
     # Run cppcheck on the input directory
     # this command line tool also looks like C/C++ codes
     # --------------------------------------------------
-    CPPCheckFile = os.path.join( self.OutputDirectory, 'ALL_CPPCHECK.txt' )
-    if os.path.isfile( CPPCheckFile ): os.remove( CPPCheckFile )
-    CPPCheckCommand = ' '.join([ 'cppcheck' , self.OutputDirectory, \
-      '--quiet' , ' 2>&1 | tee ' , CPPCheckFile ]) 
-    Scanner.RunCommand( CPPCheckCommand )
+    
+    if len( CCPPFileNames )>0:
+      CPPCheckFile = os.path.join( self.OutputDirectory, 'ALL_CPPCHECK.txt' )
+      if os.path.isfile( CPPCheckFile ): os.remove( CPPCheckFile )
+      CPPCheckCommand = ' '.join([ 'cppcheck' , self.OutputDirectory, \
+        '--quiet' , ' 2>&1 | tee ' , CPPCheckFile ]) 
+      Scanner.RunCommand( CPPCheckCommand )
 
+    CCPPReader.close()
+    del CCPPReader
+    
     # Run shellcheck commadn-line tool
     # --------------------------------
     Scanner.RunShellCheck( self.InputDirectory,self.OutputDirectory )    
@@ -56,7 +65,7 @@ class directoryscanner(object):
     ReportWriter = open(outnameReport,'w')
     ReportWriter.write('%s\n'%' -----------------------------------------------------------')
     ReportWriter.write('%s\n'%' NOAA Office of Satellite and Product Operations (NOAA/OSPO)')
-    ReportWriter.write('%s\n'%' CodeScanner 1.0.1')
+    ReportWriter.write('%s\n'%' CodeScanner 1.0.0')
     ReportWriter.write('%s\n'%' -----------------------------------------------------------')
     ReportWriter.write('%s\n'%' ') 
     ReportWriter.write('%s\n'%'  Contact Information') 
@@ -87,7 +96,6 @@ class directoryscanner(object):
       'I','Files that may lack a proper header and/or prologue description: ',
       ReportWriter )
     DirectoryScanner.SourceFilesWithoutHeader( ReportWriter )
-    print( 'I.' )
 
     Scanner.WriteItemHeader(
       'II','Files with SYSTEM() calls: ',
@@ -95,7 +103,6 @@ class directoryscanner(object):
     SystemCallsDict = DirectoryScanner.GetLinesWithSystemCalls()
     Scanner.WriteFileNamesAndLinesToReport( 
       'Files with SYSTEM() calls' , SystemCallsDict , ReportWriter,None )
-    print( 'II.' )
 
     Scanner.WriteItemHeader(
       'III','Files with LONG SOURCE CODE LINES ',
@@ -103,7 +110,6 @@ class directoryscanner(object):
     LongLinesDict = DirectoryScanner.SourceFilesWithLongLines()
     Scanner.WriteFileNamesAndLinesToReport( 
       'Files with LONG SOURCE CODE LINES' , LongLinesDict , ReportWriter,500,5 )
-    print( 'III.' )
 
     Scanner.WriteItemHeader(
       'IV','Files that may have a FLOATING POINT == or /= comparison: ',
@@ -111,7 +117,6 @@ class directoryscanner(object):
     LinesWithFloatComparisons = DirectoryScanner.GetLinesWithFloatComparison()
     Scanner.WriteFileNamesAndLinesToReport( 
       'Files with FLOATING POINT == or /= comparison' , LinesWithFloatComparisons, ReportWriter, None )
-    print( 'IV.' )
     
     Scanner.WriteItemHeader(
       'V','Files that may have lines with LEADING TABS: ',
@@ -119,7 +124,6 @@ class directoryscanner(object):
     LinesWithLeadingTabs = DirectoryScanner.GetLinesWithLeadingTabs()
     Scanner.WriteFileNamesAndLinesToReport( 
       'Files with lines that contain LEADING TABS' , LinesWithLeadingTabs, ReportWriter,None )
-    print( 'V.' )
 
     Scanner.WriteItemHeader(
       'VI','Files that may have lines with HARD CODED IP addresses: ',
@@ -127,7 +131,6 @@ class directoryscanner(object):
     LinesWithHardCodedIPs = DirectoryScanner.GetLinesWithHardCodedIPs()
     Scanner.WriteFileNamesAndLinesToReport( 
       'Files with lines with possible hard-coded IP addresses' , LinesWithHardCodedIPs, ReportWriter, None )
-    print( 'VI.' )
 
     Scanner.WriteItemHeader(
       'VII','Files that may have lines with HARD CODED FILENAMES OR PATHS: ',
@@ -135,7 +138,6 @@ class directoryscanner(object):
     LinesWithPossibleHardCodedPaths = DirectoryScanner.GetLinesWithHardCodedPaths()
     Scanner.WriteFileNamesAndLinesToReport( 
       'Files with lines with possible HARD CODED FILENAMES OR PATHS' , LinesWithPossibleHardCodedPaths, ReportWriter, None )
-    print( 'VII.' )
 
     Scanner.WriteItemHeader(
       'VIII','Files that may have possible hard-coded passwords: ',
@@ -143,124 +145,108 @@ class directoryscanner(object):
     LinesWithPossibleHardCodedPasswords = DirectoryScanner.GetLinesWithPossibleHardCodedCredentials()
     Scanner.WriteFileNamesAndLinesToReport( 
       'Files with lines with possible hard-coded credentals or passwords' , LinesWithPossibleHardCodedPasswords, ReportWriter, None )
-    print( 'VIII.' )
 
     Scanner.WriteItemHeader(
-      'IX','Files that may have HARD CODED NUMBERS: ',ReportWriter )
-    LinesWithHardCodedNumbers = DirectoryScanner.GetLinesWithHardCodedNumbers()
-    Scanner.WriteFileNamesAndLinesToReport( 
-      'Instances of HARD CODED NUMBERS ' , LinesWithHardCodedNumbers, ReportWriter, None )
-    print( 'IX.' )
-
-    Scanner.WriteItemHeader(
-      'X','Files and lines with HARD-CODED FILENAMES in OPEN() or other FUNCTION calls/statements: ',ReportWriter )
+      'IX','Files and lines with HARD-CODED FILENAMES in OPEN() or other FUNCTION calls/statements: ',ReportWriter )
     LinesWithHardCodedFileNameInOpenStatement = DirectoryScanner.GetLinesWithHardCodedPathsInOpenStatement()
     Scanner.WriteFileNamesAndLinesToReport( 
       'Instances of HARD-CODED FILENAMES IN OPEN() or other FUNCTION CALLS/STATEMENTS ' , LinesWithHardCodedFileNameInOpenStatement , ReportWriter, None )
     DirectoryScanner.close()
-    print( 'X.' )
 
     Scanner.WriteItemHeader(
-      'XI','Files and lines with POSSIBLE DIVISION BY ZERO (false positives possible): ',ReportWriter )
+      'X','Files and lines with POSSIBLE DIVISION BY ZERO (false positives possible): ',ReportWriter )
     LinesWithPossibleDivisionByZero = DirectoryScanner.GetLinesWithPossibleDivisionByZero()
     Scanner.WriteFileNamesAndLinesToReport( 
       'Instances of possible division by zero (false positives possible) ' , LinesWithPossibleDivisionByZero , ReportWriter, None )
-    print( 'XI.' )
 
     Scanner.WriteItemHeader(
-      'XII','Files and lines with possible HARD-CODED NUMBERS (MAGIC NUMBERS): ',ReportWriter )
+      'XI','Files and lines with possible HARD-CODED NUMBERS (MAGIC NUMBERS): ',ReportWriter )
     LinesWithMagicNumbers = DirectoryScanner.LinesWithMagicNumbersAnyLanguage()
     Scanner.WriteFileNamesAndLinesToReport( 
       'Files and lines with possible MAGIC NUMBERS ' , LinesWithMagicNumbers , ReportWriter, None )
-    print( 'XII.' )
-
     DirectoryScanner.close()
 
     # Get FORTRAN code scanning results
     # ---------------------------------
 
     FortranReader  = FortranScanner( self.InputDirectory )
-
-    Scanner.WriteItemHeader( 'XIII' , 'FORTRAN source files that do not initialize POINTER variables to NULL(): ', ReportWriter ) 
+    Scanner.WriteItemHeader( 'XII' , 'FORTRAN source files that do not initialize POINTER variables to NULL(): ', ReportWriter ) 
     LinesWithPointerWithoutNULL = FortranReader.InstancesOfPointerDeclarationsWithoutNull()
     Scanner.WriteFileNamesAndLinesToReport( 
       'FORTRAN source files without NULL() POINTER initialization',LinesWithPointerWithoutNULL, ReportWriter, 4, 2 )
-    print( 'XIII.' )
 
-    Scanner.WriteItemHeader( 'XIV' , 'FORTRAN source files with GOTO: ', ReportWriter ) 
+    Scanner.WriteItemHeader( 'XIII' , 'FORTRAN source files with GOTO: ', ReportWriter ) 
     LinesWithGoTo = FortranReader.InstancesOfFortranGoTo()
     Scanner.WriteFileNamesAndLinesToReport( 
       'FORTRAN source files without GOTO',LinesWithGoTo, ReportWriter, None )
-    print( 'XIV.' )
 
-    Scanner.WriteItemHeader( 'XV' , 'FORTRAN source files that may lack IMPLICIT NONE: ', ReportWriter ) 
+    # list FORTRAN source files that lack use of IMPLICIT NONE 
+    # --------------------------------------------------------
+    Scanner.WriteItemHeader( 'XIV' , 'FORTRAN source files that may lack IMPLICIT NONE: ', ReportWriter ) 
     FilesLackingImplicitNone = FortranReader.FilesWithoutImplicitNone()
     Scanner.WriteFileNamesToReport( 
       'FORTRAN source files without IMPLICIT NONE',FilesLackingImplicitNone,ReportWriter )
-    print( 'XV.' )
-    
+
+    # list instances where implicit variables are indeed used in Fortran
+    # ------------------------------------------------------------------
+    Scanner.WriteItemHeader( 'XV' , 'FORTRAN usage of IMPLICIT variables: ', ReportWriter ) 
+    InstancesOfImplicitVariables = FortranReader.InstancesOfImplicitVariableUse()
+    Scanner.WriteFileNamesAndLinesToReport( 
+      'FORTRAN source files that use implicit variables',InstancesOfImplicitVariables,ReportWriter,None )
+
     Scanner.WriteItemHeader( 
        'XVI' , 'FORTRAN source files that may have instances of EQUIVALENCE: ', ReportWriter ) 
     LinesWithEquivalence = FortranReader.InstancesOfEquivalence()
     Scanner.WriteFileNamesAndLinesToReport( 
       'FORTRAN source files with EQUIVALENCE' , LinesWithEquivalence, ReportWriter, None )
-    print( 'XVI.' )
 
     LinesWithCommonBlock = FortranReader.InstancesOfCommonBlock()
     Scanner.WriteItemHeader( 
        'XVII' , 'FORTRAN source files that may have instances of COMMON: ', ReportWriter ) 
     Scanner.WriteFileNamesAndLinesToReport( 
       'FORTRAN source files with COMMON' , LinesWithCommonBlock, ReportWriter, None )
-    print( 'XVII.' )
 
     LinesWithCommonBlock = FortranReader.InstancesOfInclude()
     Scanner.WriteItemHeader( 
        'XVIII' , 'FORTRAN source files that may have instances of INCLUDE: ', ReportWriter ) 
     Scanner.WriteFileNamesAndLinesToReport( 
       'FORTRAN source files with INCLUDE' , LinesWithCommonBlock, ReportWriter, None )
-    print( 'XVIII.' ) 
 
     LinesWithNumberedLoops = FortranReader.InstancesOfNumberedLoops()
     Scanner.WriteItemHeader( 
        'XIX' , 'FORTRAN source files that may have instances of NUMBERED LOOPS: ', ReportWriter ) 
     Scanner.WriteFileNamesAndLinesToReport( 
       'FORTRAN source files with NUMBERED LOOPS' , LinesWithNumberedLoops, ReportWriter, None, 5 )
-    print( 'XIX.' )
 
     LinesWithPrintStatements = FortranReader.InstancesOfPrintStatements()
     Scanner.WriteItemHeader( 
        'XX' , 'FORTRAN PRINT statements: ', ReportWriter ) 
     Scanner.WriteFileNamesAndLinesToReport( 
       'FORTRAN PRINT statements', LinesWithPrintStatements, ReportWriter, None  )
-    print( 'XX.' )
 
     LinesWithWriteStatements = FortranReader.InstancesOfWriteStatements()
     Scanner.WriteItemHeader( 
        'XXI' , 'FORTRAN source files WRITE statements: ', ReportWriter ) 
     Scanner.WriteFileNamesAndLinesToReport( 
       'FORTRAN PRINT statements' , LinesWithWriteStatements, ReportWriter, None  )
-    print( 'XXI.' )
 
     LinesWithCallExitStatements = FortranReader.InstancesOfCallExitStatements()
     Scanner.WriteItemHeader( 
        'XXII' , 'FORTRAN source files CALL EXIT statements: ', ReportWriter ) 
     Scanner.WriteFileNamesAndLinesToReport( 
       'FORTRAN CALL EXIT statements' , LinesWithCallExitStatements, ReportWriter, None, 2  )
-    print( 'XXII.' )
 
     LinesWithoutKind = FortranReader.InstancesOfDeclarationsWithoutKind()
     Scanner.WriteItemHeader( 
        'XXIII' , 'FORTRAN source files that may lack usage of KIND or formal type declarations: ', ReportWriter ) 
     Scanner.WriteFileNamesAndLinesToReport( 
       'FORTRAN source files that may lack usage of KIND' , LinesWithoutKind, ReportWriter, None  )
-    print( 'XXIII.' )
 
     LinesWithHardCodedArrays = FortranReader.GetLinesWithHardCodedArrayDimensions() 
     Scanner.WriteItemHeader( 
        'XXIV' , 'FORTRAN source files that may have hard-coded array dimensions: ', ReportWriter ) 
     Scanner.WriteFileNamesAndLinesToReport( 
        'FORTRAN source files that have hard-coded array dimensions' , LinesWithHardCodedArrays, ReportWriter, None )
-    print( 'XXIV.' )
     FortranReader.close()
 
     # Get C++ code scanning results
@@ -274,21 +260,18 @@ class directoryscanner(object):
       'XXV' , 'C++ source files with OPERATOR OVERLOADING of: , (comma) || && ): ', ReportWriter ) 
     Scanner.WriteFileNamesAndLinesToReport( 
       'C++ instances of OPERATOR OVERLOADING { "," , "&&", "||" } ' , LinesWithOperatorOverloading, ReportWriter, None  )
-    print( 'XXV.' )
 
     Scanner.WriteItemHeader( 
       'XXVI' , 'C++ lines with POINTER ARITHMETIC i.e. *( p+i ) : ', ReportWriter ) 
     LinesWithPointerArithmetic = CCPPReader.LinesWithPointerArithmetic() 
     Scanner.WriteFileNamesAndLinesToReport( 
       'C++ instances of POINTER ARITHMETIC: ' , LinesWithPointerArithmetic, ReportWriter, None  )
-    print( 'XXVI.' )
 
     Scanner.WriteItemHeader( 
       'XXVII' , 'C/C++ source files that may have DEEP NESTING{}: ', ReportWriter ) 
     FileNamesWithDeepNesting = CCPPReader.CCPPInstancesOfDeepNesting()
     Scanner.WriteFileNamesToReport( 
       'C/C++ source files with DEEP NESTING{}',FileNamesWithDeepNesting, ReportWriter )
-    print( 'XXVII.' )
 
     Scanner.WriteItemHeader( 
       'XXVIII' , 'C++ instances of CONSTRUCTOR, DECONSTRUCTOR, COPY CONSTRUCTOR, and/or ASSIGNMENT OPERATOR: ', ReportWriter ) 
@@ -296,81 +279,77 @@ class directoryscanner(object):
     Scanner.WriteFileNamesAndLinesToReport( 
       'C++ instances of DECONSTRUCTOR,CONSTRUCTOR(s),ASSIGNMENT OPERATOR,...' , 
       FileNamesAndLinesWithMissingClassDefinitions, ReportWriter, None  )
-    print( 'XXVIII.' )
 
     Scanner.WriteItemHeader( 
       'XXIX' , 'C/C++ instances of POINTER CASTING: ', ReportWriter ) 
     PointerCastingLines = CCPPReader.InstancesOfCastingPointers()
     Scanner.WriteFileNamesAndLinesToReport( 
       'C/C++ instances of POINTER casting' , PointerCastingLines, ReportWriter, None  )
-    print( 'XXIX.' )
 
     Scanner.WriteItemHeader( 
       'XXX' , 'C++ instances of NEW without use of DELETE []: ', ReportWriter ) 
     LinesWithNewAndNoDelete = CCPPReader.InstancesOfNewWithoutDelete('new','delete', 'C++' )
     Scanner.WriteFileNamesAndLinesToReport( 
       'C++ instances of NEW without DELETE' , LinesWithNewAndNoDelete, ReportWriter, None  )
-    print( 'XXX.' )
 
     Scanner.WriteItemHeader( 
       'XXXI' , 'C++ POSSIBLE instances of MAGIC NUMBERS: ', ReportWriter ) 
     LinesWithMagicNumbers = CCPPReader.LinesWithMagicNumbers('C++')
     Scanner.WriteFileNamesAndLinesToReport( 
       'C++ POSSIBLE instances of MAGIC NUMBERS' , LinesWithMagicNumbers, ReportWriter, None  )
-    print( 'XXXI.' )
 
     Scanner.WriteItemHeader( 
       'XXXII' , 'C POSSIBLE instances of MAGIC NUMBERS: ', ReportWriter ) 
     LinesWithMagicNumbers = CCPPReader.LinesWithMagicNumbers('C')
     Scanner.WriteFileNamesAndLinesToReport( 
       'C POSSIBLE instances of MAGIC NUMBERS' , LinesWithMagicNumbers, ReportWriter, None  )
-    print( 'XXXII.' )
 
     Scanner.WriteItemHeader( 
       'XXXIII' , 'C/C++ too much pointer indirection: ', ReportWriter ) 
     LinesWithTooMuchIndirection = CCPPReader.LinesWithTooMuchPointerIndirection()
     Scanner.WriteFileNamesAndLinesToReport( 
       'C/C++ lines with too much pointer indirection (i.e. float **** )' , LinesWithTooMuchIndirection, ReportWriter, None  )
-    print( 'XXXIII.' )
 
     Scanner.WriteItemHeader( 
       'XXXIV' , 'C/C++ with hard-coded array dimensions: ', ReportWriter ) 
     LinesWithHardCodedArrayDimensions = CCPPReader.LinesWithHardCodedArrayDimensions()
     Scanner.WriteFileNamesAndLinesToReport( 
       'C/C++ lines with hard-coded array dimensions' , LinesWithHardCodedArrayDimensions, ReportWriter, None  )
-    print( 'XXXIV.' )
     
     Scanner.WriteItemHeader( 
       'XXXV' , 'C++ lines that use NULL instead of null_ptr: ', ReportWriter ) 
     LinesWithNullAndNotNullPtr = CCPPReader.LinesWithNullAndNotNullPtr()
     Scanner.WriteFileNamesAndLinesToReport( 
       'C++ lines that do not use null_ptr and use NULL instead.' , LinesWithNullAndNotNullPtr, ReportWriter, None  )
-    print( 'XXXV.' )
 
     Scanner.WriteItemHeader( 
       'XXXVI' , 'C/Fortran interoperability: ', ReportWriter ) 
     LinesWithFortranCInteroperability = CCPPReader.LinesWithFortranInteroperability()
     Scanner.WriteFileNamesAndLinesToReport( 
       'C/Fortran interoperability.' , LinesWithFortranCInteroperability, ReportWriter, None  )
-    print( 'XXXVI.' )
 
     Scanner.WriteItemHeader( 
       'XXXVII' , 'C/C++ interoperability: ', ReportWriter ) 
     LinesWithCandCPPCInteroperability = CCPPReader.LinesWithCandCPPInteroperability()
     Scanner.WriteFileNamesAndLinesToReport( 
       'C/C++ interoperability.' , LinesWithCandCPPCInteroperability, ReportWriter, None  )
-    print( 'XXXVII.' )
 
     Scanner.WriteItemHeader( 
       'XXXVIII' , 'C/C++ large, hard-coded array (i.e. poor use of memory, use NEW or MALLOC): ', ReportWriter ) 
     LinesWithoutDynamicMemoryAllocation = CCPPReader.LinesWithHardCodedArraysThatShouldUseNewOrAlloc()
     Scanner.WriteFileNamesAndLinesToReport( 
       'C/C++ arrays that should be dynamically allocated with MALLOC or NEW' , LinesWithoutDynamicMemoryAllocation, ReportWriter, None  )
-    print( 'XXXVIII.' )
-
     ReportWriter.close()
     #CCPPReader.LinesWithPointerInitializationWithoutNULL()
 
+    Scanner.WriteItemHeader( 
+      'XXXIX' , 'reporting of C/C++ usage of alloc(),malloc() in which the allocation is checked for success or not (e.g. == NULL): ', ReportWriter ) 
+    LinesCheckingForAllocationSuccess = CCPPReader.LinesWithMallocWithoutCheckingForSuccess()
+    Scanner.WriteFileNamesAndLinesToReport( 
+      'C/C++ POINTERs to memory blocks, checking alloc(),malloc() for success' , LinesCheckingForAllocationSuccess, ReportWriter, None  )
+    ReportWriter.close()
+    
+    #CCPPReader.LinesWithPointerInitializationWithoutNULL()
 
 def usage(): 
 		

@@ -29,6 +29,30 @@ class CCPPScanner( Scanner ):
   def LinesWithCandCPPInteroperability(self):
     return self.SearchFileNamesWithRegex(  r'extern[ \t]*\"C\"' , 'CorC++' )
 
+  def LinesWithMallocWithoutCheckingForSuccess(self):
+    Results    = self.SearchFileNamesWithRegex( r'(.*)=(.*)alloc', 'CorC++' )
+    OutResults = {}
+    for FileName,Lines in Results.items():
+      Msgs=[]
+      for line in Lines : 
+        try:
+          LineNumber        = line.split(':')[0].replace('Line ','').strip()
+          LineNumber        = int(LineNumber)
+          AllocatedVariable = line.split(':')[1].strip().split('=')[0].strip()
+          SrcLines          = open( FileName,'r').readlines()
+
+          AllocationLine = '   ... WARNING: Variable may not have been checked for allocation and may be NULL ... '
+          for SrcLine in SrcLines:
+            SrcLine=SrcLine.strip()
+            if AllocatedVariable in SrcLine and 'if' in SrcLine and ( 'NULL' in SrcLine or 'nullptr' in SrcLine ):
+              AllocationLine = '    check for allocation success: ' + SrcLine
+          AllocationMsg = line+'\n  '+AllocationLine
+          Msgs.append(AllocationMsg)
+        except:
+          pass
+      OutResults[FileName]=Msgs
+    return OutResults
+
   def LinesWithHardCodedArraysThatShouldUseNewOrAlloc(self):
     InitialLines = self.SearchFileNamesWithRegex(  r'[ \t]*(?:int|float|double)[ \t]*\[(.*)[0-9]{1,}(.*)\]' , 'CorC++' )
     FilteredResults = {}

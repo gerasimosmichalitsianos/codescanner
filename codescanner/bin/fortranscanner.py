@@ -34,6 +34,9 @@ class FortranScanner(Scanner):
         FilesWithoutImplicitNone.append( FileName )
     return FilesWithoutImplicitNone
 
+  def InstancesOfImplicitVariableUse(self):
+    return self.SearchFileNamesWithRegex( r'^(?!.[\s\S]*none).[\s\S]*implicit.*$', 'Fortran' )
+
   def InstancesOfEquivalence(self):
     return self.SearchFileNamesWithRegex( r'^[ \t]*equivalence*' , 'Fortran'  )
 

@@ -14,7 +14,6 @@ class Scanner(object):
   #   (4) C++
   #   (5) C
   # -----------------------------------------------
-
   AllFileExtensions = { 
     'Fortran' : [ 'f','F','f77','F77','for','FOR','FTN','ftn','pfo','f90','F90','f95','f95' ],
     'Python'  : [ 'py' ],
@@ -130,7 +129,6 @@ class Scanner(object):
     # Iterate through relevant Code source files based on 
     # SourceFileType flag (i.e. Fortran, Perl, ... )
     # ----------------------------------------------------
-
     for FileName in FileNames: 
 
       # Get lines from source code file. Replace any comment
