@@ -41,21 +41,21 @@ input directory of your source codes to be scanned, and run the docker container
        
 This is the recommended usage.
        
-Alternatively, after checking out the code, you could simply do the following:
+Alternatively, after checking out the code, you could simply do the following
+to run this code directly with your local python interpreter (e.g. **/usr/bin/python3**):
  
     $ DIR=/home/gmichali/CCAP_MiRS_v1-0_20201228_FilesToReview
     $ git clone https://github.com/gerasimosmichalitsianos/codescanner
     $ cd codescanner/codescanner
     $ python3 codescanner.py --directory $DIR
        
-  Note that because docker was not used here, you will need to install the following 
-  command-line tools manually (as well as Python 3):
+  Note that if **docker** is not used per above, you will need to manually install the following 
+  command-line tools onto your system (as well as Python 3) to run the code directly:
        
-    (1) perlcritic
-    (2) shellcheck
-    (3) cppecheck
-    (4) flawfinder
-    (5) count lines of code (cloc)
+    (1) shellcheck
+    (2) cppecheck
+    (3) flawfinder
+    (4) count lines of code (cloc)
 
 ## @author: 
     Gerasimos Michalitsianos
