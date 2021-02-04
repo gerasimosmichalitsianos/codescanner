@@ -339,7 +339,6 @@ class directoryscanner(object):
     LinesWithoutDynamicMemoryAllocation = CCPPReader.LinesWithHardCodedArraysThatShouldUseNewOrAlloc()
     Scanner.WriteFileNamesAndLinesToReport( 
       'C/C++ arrays that should be dynamically allocated with MALLOC or NEW' , LinesWithoutDynamicMemoryAllocation, ReportWriter, None  )
-    ReportWriter.close()
     #CCPPReader.LinesWithPointerInitializationWithoutNULL()
 
     Scanner.WriteItemHeader( 
@@ -348,7 +347,6 @@ class directoryscanner(object):
     Scanner.WriteFileNamesAndLinesToReport( 
       'C/C++ POINTERs to memory blocks, checking alloc(),malloc() for success' , LinesCheckingForAllocationSuccess, ReportWriter, None  )
     ReportWriter.close()
-    
     #CCPPReader.LinesWithPointerInitializationWithoutNULL()
 
 def usage(): 
