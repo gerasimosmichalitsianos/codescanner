@@ -1,4 +1,4 @@
-# codescanner
+# CodeScanner
 
 This is a Python 3 command-line program to scan scientific source codes for security flaws,
 as well as raise warnings and flags for best as well as possible poor scientific programming practices. 
@@ -20,7 +20,8 @@ final destination).
      
 ## Version
 
-    CodeScanner Version 1.0.0, 4 February 2021
+    CodeScanner Version 1.0.0
+    4 February 2021
 
 ## Installation
 
