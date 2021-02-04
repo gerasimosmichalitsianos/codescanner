@@ -58,6 +58,15 @@ to run this code directly with your local python interpreter (e.g. **/usr/bin/py
     (3) flawfinder
     (4) count lines of code (cloc)
 
+## Items Covered
+
+    **i. Source code files that may lack proper header or prologue.**
+    
+    It is important that scientific codes contain at least a few comments at the top of the
+    source file to describe what the source file is used for. Or at least some sort of header
+    or prologue. 
+           
+
 ## @author: 
     Gerasimos Michalitsianos
     gerasimosmichalitsianos@gmail.com
