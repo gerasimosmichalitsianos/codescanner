@@ -71,7 +71,7 @@ to run this code directly with your local python interpreter (e.g. **/usr/bin/py
   **ii. system() calls are parsed and reported** 
            
     It is important for the variables or strings inside system() calls to be well-parameterized.
-    The system() calls are written to the output report so the programmer may check to see all
+    The system() calls are written to the output report so the programmer may check to see they
     are well-parameterized.
     
   **iii. long source code lines**
@@ -81,8 +81,46 @@ to run this code directly with your local python interpreter (e.g. **/usr/bin/py
     
   **iv. Comparisons using == , !=, /= , or other similar operators**
   
-     
+    Possible instances are reported to the final output report if the ==,!= or other similar 
+    operators are used in which a mathematical expression is compared to a float. This may
+    create errors in rounding or accuracy that could break the code.
+    
+  **v. Leading Tabs**
   
+    Source code lines that may contain leading tabs are reported. It is recommended to use
+    spaces instead of leading tabs, especially in Fortran codes (some would argue Python too).
+    
+  **vi. Possible Hard-Coded IP Addresses**
+
+    IP addresses should never be hard-coded. Or, at least, they should at least be inside
+    configuration files or something similar. This item writes out possible instances of 
+    hard-coded IP addresses. Again, false-positives are possible.
+    
+  **vii. Possible instances of hard-coded directories or filenames **
+  
+    Possible instances of hard-coded directories or filenames are reported. It is recommended
+    that these be placed into configuration files (e.g. yaml). Such instances of these are
+    reported so the programmer may see if hard-coded directories or filenames are at least
+    well-parameterized or placed into a configuration file.
+    
+  **viii. Possible hard-coded passwords**
+  
+    Possible instances of hard-coded passwords are reported. Various terms are grepped or 
+    searched for, including "username,"password,"uname,", and so on and so forth. These 
+    are reported, should they exist. False positives are possible as usual.
+    
+  **ix. Instances of hard-coded filenames in open() and close() statements**
+  
+    Again, filenames should be well-parameterized, and not hard-coded into open() and
+    close() statements in your codes. Possible instances of this are reported.
+    
+  **x. Possible Division by Zero**
+  
+    Possible instances of division by zero are repoted. False positives occur often.
+    
+  **xi. Usage of Magic Numbers**
+  
+
 
 ## @author: 
     Gerasimos Michalitsianos
