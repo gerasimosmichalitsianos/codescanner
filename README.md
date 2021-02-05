@@ -205,16 +205,24 @@ to run this code directly with your local python interpreter (e.g. **/usr/bin/py
     becuase these symbols are used elsewhere in the syntax of C/C++. Such possible instances
     of this kind of overloading are listed in the output CodeScanner report.
     
-  **xxvi. C++ lines with POINTER ARITHMETIC i.e. \*( p+i )***
+  **xxvi. C++ lines with POINTER ARITHMETIC i.e.**
   
-    Pointer arithmetic is common in C/C++, and is great for code optimization, and is much
+    Pointer arithmetic e.g. *(p+1) is common in C/C++, and is great for code optimization, and is much
     faster than array indexing. Nontheless, one must be careful to make sure the pointer arithmetic
     does not get too complicated. Possible instances of pointer arithmetic are listed in the
     output report for the programmer to review.
     
-  **xxvii. C/C++ source files that may have DEEP NESTING{}: **
+  **xxvii. C/C++ source files that may have DEEP NESTING{}:**
   
+    Source files that may have very deep nesting, going as fas as 5+ levels deep, are listed.
+    Just so the programmer can review the algorithm.
     
+  **xxviii. C++ instances of CONSTRUCTOR, DECONSTRUCTOR, COPY CONSTRUCTOR, and/or ASSIGNMENT OPERATOR**
+  
+    C++ usage of constructors, deconstructors, copy constructors, and assignment operators are parsed
+    and listed for the programmer to review.
+    
+  **xxix. **
   
 ## @author: 
     Gerasimos Michalitsianos
