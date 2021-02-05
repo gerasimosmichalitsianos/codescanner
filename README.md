@@ -222,7 +222,40 @@ to run this code directly with your local python interpreter (e.g. **/usr/bin/py
     C++ usage of constructors, deconstructors, copy constructors, and assignment operators are parsed
     and listed for the programmer to review.
     
-  **xxix. **
+  **xxix. C/C++ instances of pointer casting**
+  
+    C/C++ lines with pointer casting are listed. Pointer casting is very common in C/C++. But one must
+    be careful not to cast, for example, a pointer to an integer to a pointer to a double. This could
+    possibly result in a buffer overflow (memory leak). Instances of pointer casting are listed for
+    the programmer to review.
+    
+  **xxx. C++ instances of NEW without use of delete []:**
+  
+    When the C++ "new" keyword is used to allocate a new block of memory, the delete [] operator should
+    always also accompany that variable later-on. Memory should be released as appropraite. Instances 
+    of "new" without use of delete [] for variables in the C++ are listed in the CodeScanner report. 
+    As usual, false-positives are possible because this tool does not perform cross-checking 
+    between source files.
+    
+  **xxxi. C++ instances of magic numbers**
+  
+    Like above, magic numbers should be avoided in C/C++. This could be a maintainability issue.
+    Try to parameterize variables as much as possible. Possible instances of C++ magic numbers
+    are listed in the output CodeScanner report.
+    
+  **xxxii. C instances of magic numbers**
+  
+    Like above, magic numbers should be avoided in C. This could be a maintainability issue.
+    Try to parameterize variables as much as possible. Possible instances of C magic numbers
+    are listed in the output CodeScanner report.
+    
+  **xxxiii. C/++ pointer indirection**
+  
+    Instances of pointer indirection are listed (four levels or more). This can be confusing.
+    
+  **xxxiv. C/C++ instances of hard-coded array dimensions**
+  
+    Instances of possible hard-coded array dimensions are listed in the output CodeScanner report.
   
 ## @author: 
     Gerasimos Michalitsianos
