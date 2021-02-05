@@ -242,14 +242,15 @@ to run this code directly with your local python interpreter (e.g. **/usr/bin/py
     Like above, magic numbers should be avoided in C/C++. This could be a maintainability issue.
     Try to parameterize variables as much as possible. Possible instances of C++ magic numbers
     are listed in the output CodeScanner report. Magic numbers are basically hard-coded numbers
-    that often appear in conditional statements e.g. if( rain< 1100 ) { do something ... ; }.
-    What does the value of 1,000 even mean? Could it change?
+    that often appear in conditional statements e.g. if( rain<1100 ) { do something ... ; }.
+    What does the value of 1,100 even mean in this if-statement? Could it change? Best to 
+    declare it with #define, or perhaps in some sort of configuration file.
     
   **xxxii. C instances of magic numbers**
   
     Like above, magic numbers should be avoided in C. This could be a maintainability issue.
-    Try to parameterize variables as much as possible. Possible instances of C magic numbers
-    are listed in the output CodeScanner report.
+    Try to parameterize variables as much as possible (e.g. with #define). Possible instances 
+    of C magic numbers are listed in the output CodeScanner report.
     
   **xxxiii. C/C++ pointer indirection**
   
@@ -270,15 +271,24 @@ to run this code directly with your local python interpreter (e.g. **/usr/bin/py
     Dynamic memory allocation really should be used (e.g. new and delete [ ] in C++ and
     free() and malloc() in C codes). 
     
-    For this item, instances of hard-coded arrays are reported in C/C++ source files, and those
-    lines containing such are written to the output report. It is then up to the 
-    programmer to view the output report from CodeScanner and decide whether these are 
-    acceptable or not.
+    For this item, all (found) instances of hard-coded arrays are reported in C/C++ 
+    source files, and those lines containing such are written to the output report. False
+    positives are possible. It is then up to the programmer to view the output report 
+    from CodeScanner and decide whether these are acceptable or not.
   
   **xxxv. C++ usage of NULL instead of nullptr**
   
-    Modern C++ should use nullptr instead of NULL. Lines that use NULL are listed in the 
+    Modern C++ should use nullptr instead of NULL. Lines that use NULL (C++ only) are listed in the 
     CodeScanner output report.
+    
+    So C++ source code lines that may contain something like:
+    
+      int* x = NULL;
+      
+    will be written and reported to the output CodeScanner report and flagged.
+    In reality, this line may be rewritten as:
+    
+      int* x = nullptr;
     
   **xxxvi. C/Fortran interoperability**
   
@@ -291,9 +301,34 @@ to run this code directly with your local python interpreter (e.g. **/usr/bin/py
     Use of extern "C" should be used to call C routines from C++. Lines with extern "C" are
     reported to the output CodeScanner report so the programmer may view them.
     
-  **xxxviii. **
+  **xxxviii. C/C++ large, hard-coded array (i.e. poor use of memory, use NEW or MALLOC)**
+  
+    This item is very similar to item #34. With #34 however, ALL instances of hard-coded
+    array dimensions are listed (lines are listed in output CodeScanner report). For this
+    item, numeric variables of type { double,integer,float, ...} are reported and only
+    those lines are reported that contain array declarations with large dimensions
+    (that lack the new or malloc keyword and have repeating numbers).
+    
+  **xxxix. C/C++ usage of malloc(),alloc() in which allocation is not checked for success**
+    
+    When the malloc() or alloc() functions are used, a pointer is created that points
+    to that block of memory. This is good practice for use in dynamic memory allocation.
+    
+    After using these functions, the pointer should be checked for successful allocation
+    of the memory e.g. comparison to NULL or nullptr. This item reports those lines that 
+    use alloc() or malloc(), and checks to see in subsequent lines if that variable is 
+    checked to be NULL. The output in the CodeScanner report may look like:
+    
+    Line 253:   lat_data = (float *)malloc(bytes_per_scan);
+      check for allocation success: if (NULL == lat_data) { ...
+      
+    A warning is written to the output CodeScanner report if no such if-statement is found e.g.
+    
+    Line 117:   iobuf = (byte1 *)malloc(row_bytes);
+      ... WARNING: Variable may not have been checked for allocation and may be NULL ...
   
 ## @author: 
+
     Gerasimos Michalitsianos
     gerasimosmichalitsianos@gmail.com
     4 February, 2021
