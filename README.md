@@ -241,7 +241,9 @@ to run this code directly with your local python interpreter (e.g. **/usr/bin/py
   
     Like above, magic numbers should be avoided in C/C++. This could be a maintainability issue.
     Try to parameterize variables as much as possible. Possible instances of C++ magic numbers
-    are listed in the output CodeScanner report.
+    are listed in the output CodeScanner report. Magic numbers are basically hard-coded numbers
+    that often appear in conditional statements e.g. if( rain< 1100 ) { do something ... ; }.
+    What does the value of 1,000 even mean? Could it change?
     
   **xxxii. C instances of magic numbers**
   
@@ -256,6 +258,10 @@ to run this code directly with your local python interpreter (e.g. **/usr/bin/py
   **xxxiv. C/C++ instances of hard-coded array dimensions**
   
     Instances of possible hard-coded array dimensions are listed in the output CodeScanner report.
+  
+  **xxxv. C++ usage of NULL instead of nullptr**
+  
+    Modern C++ should use nullptr instead of NULL. Lines that 
   
 ## @author: 
     Gerasimos Michalitsianos
