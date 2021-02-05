@@ -81,18 +81,40 @@ to run this code directly with your local python interpreter (e.g. **/usr/bin/py
            
     It is important for the variables or strings inside system() calls to be well-parameterized.
     The system() calls are written to the output report so the programmer may check to see they
-    are well-parameterized.
+    are well-parameterized. Hard-coded strings are less desirable in system() calls e.g.
+    
+      system( "rm outname.txt" ) or die("failure.");
+      
+    which may be better written as:
+    
+      my command = "rm outname.txt";
+      my @args = ("rm", "outname.txt");
+      system(@args) == 0
+        or die "system @args failed: $?";
+        
+    For this item, all found lines that may contain system() calls are reported. It is then
+    up to the developer to decide if this look OK and are appropriate.
     
   **iii. long source code lines**
 
     Lines that are longer than 120 characters are reported to the final CodeScanner output report.
-    It is best practice that source code lines should be 120 characters or less.
+    It is best practice that source code lines should be 120 characters or less. Just good 
+    practice. Ultimately, the devlopers review and decide if these are OK.
     
   **iv. Comparisons using == , !=, /= , or other similar operators**
   
     Possible instances are reported to the final output report if the ==,!= or other similar 
     operators are used in which a mathematical expression is compared to a float. This may
-    create errors in rounding or accuracy that could break the code.
+    create errors in rounding or accuracy that could break the code e.g.
+    
+      if( (3.1459 * 0.001 * x ) == 0.01 ) { ... do stuff ... }
+      
+    would be very bad practice.
+    
+    All instances of usage of ==, !=, and /= etc. are reported (the source code lines)
+    and written to the output CodeScanner report. It is then up to the developer to view
+    the report and make sure such usage of !=, ==, and /= look OK and will not result
+    in rounding errors.
     
   **v. Leading Tabs**
   
@@ -111,6 +133,10 @@ to run this code directly with your local python interpreter (e.g. **/usr/bin/py
     that these be placed into configuration files (e.g. yaml). Such instances of these are
     reported so the programmer may see if hard-coded directories or filenames are at least
     well-parameterized or placed into a configuration file.
+    
+    Possible instances (with false positives possible) of hard-coded directories and filenames
+    are reported to the output CodeScanner report. It is up to the developers to decide if these
+    are OK and can remain as-is.
     
   **viii. Possible hard-coded passwords**
   
@@ -136,6 +162,7 @@ to run this code directly with your local python interpreter (e.g. **/usr/bin/py
   **xii. Instances of POINTER variables in Fortran 90+ codes that do not initialize to NULL**
   
     It is good practice to initialize Fortran POINTER variables to NULL e.g.
+    
     INTEGER, POINTER, ALLOCATABLE :: x => NULL(). Those instances where NULL is not
     used are listed in the output report.
     
