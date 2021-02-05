@@ -60,8 +60,6 @@ class directoryscanner(object):
     outnameReport = os.path.join(self.OutputDirectory,'codeScannerReport.txt')
     if os.path.isfile(outnameReport): os.remove(outnameReport) 
 
-    # run perlcritic command line tool
-    # --------------------------------
     ReportWriter = open(outnameReport,'w')
     ReportWriter.write('%s\n'%' -----------------------------------------------------------')
     ReportWriter.write('%s\n'%' NOAA Office of Satellite and Product Operations (NOAA/OSPO)')
@@ -91,7 +89,6 @@ class directoryscanner(object):
     # Get general code-scanning results (any langauge)
     # ------------------------------------------------
     DirectoryScanner = Scanner( self.InputDirectory )
-
     Scanner.WriteItemHeader(
       'I','Files that may lack a proper header and/or prologue description: ',
       ReportWriter )
@@ -168,7 +165,6 @@ class directoryscanner(object):
 
     # Get FORTRAN code scanning results
     # ---------------------------------
-
     FortranReader  = FortranScanner( self.InputDirectory )
     Scanner.WriteItemHeader( 'XII' , 'FORTRAN source files that do not initialize POINTER variables to NULL(): ', ReportWriter ) 
     LinesWithPointerWithoutNULL = FortranReader.InstancesOfPointerDeclarationsWithoutNull()
@@ -253,8 +249,6 @@ class directoryscanner(object):
     # -----------------------------
    
     CCPPReader = CCPPScanner( self.InputDirectory )
-    CCPPReader.SwitchStatementsWithoutDefault(ReportWriter,'XXIV')
-
     LinesWithOperatorOverloading = CCPPReader.InstancesOfOperatorOverloading()     
     Scanner.WriteItemHeader( 
       'XXV' , 'C++ source files with OPERATOR OVERLOADING of: , (comma) || && ): ', ReportWriter ) 
@@ -339,22 +333,22 @@ class directoryscanner(object):
     LinesWithoutDynamicMemoryAllocation = CCPPReader.LinesWithHardCodedArraysThatShouldUseNewOrAlloc()
     Scanner.WriteFileNamesAndLinesToReport( 
       'C/C++ arrays that should be dynamically allocated with MALLOC or NEW' , LinesWithoutDynamicMemoryAllocation, ReportWriter, None  )
-    #CCPPReader.LinesWithPointerInitializationWithoutNULL()
 
     Scanner.WriteItemHeader( 
       'XXXIX' , 'reporting of C/C++ usage of alloc(),malloc() in which the allocation is checked for success or not (e.g. == NULL): ', ReportWriter ) 
     LinesCheckingForAllocationSuccess = CCPPReader.LinesWithMallocWithoutCheckingForSuccess()
     Scanner.WriteFileNamesAndLinesToReport( 
       'C/C++ POINTERs to memory blocks, checking alloc(),malloc() for success' , LinesCheckingForAllocationSuccess, ReportWriter, None  )
+    CCPPReader.SwitchStatementsWithoutDefault(ReportWriter,'XXXX')
     ReportWriter.close()
-    #CCPPReader.LinesWithPointerInitializationWithoutNULL()
+    CCPPReader.close()
 
 def usage(): 
 		
   print(''' 
     ----------------------------------------------------
     NOAA Office of Satellite and Product Operations OSPO
-    CodeScanner 1.0.1
+    CodeScanner 1.0.0
     ----------------------------------------------------
 
     Contact Information
@@ -362,7 +356,7 @@ def usage():
     @company     : NOAA/SGT, Inc.
     @email       : gerasimos.michalitsianos@noaa.gov
     @phone       : 301-683-3267
-    Last Updated : 20 December 2019 
+    Last Updated : 5 February 2021 
 
     --------
     PURPOSE:
@@ -424,7 +418,7 @@ def main():
   outputDirectory=''
   global LastUpdated
   global verbose
-  LastUpdated = '7 January 2021' 
+  LastUpdated = '5 February 2021' 
 
   # ---------------------------------------------------------------
   # get input directory as command-line argument
