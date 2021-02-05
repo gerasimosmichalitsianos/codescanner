@@ -62,6 +62,11 @@ to run this code directly with your local python interpreter (e.g. **/usr/bin/py
     (3) flawfinder
     (4) count lines of code (cloc)
 
+## Output
+
+    A text file **codeScannerReport.txt** will be created in the output directory that
+    is being scanned (e.g. in the directory defined by $DIR above).
+
 ## Items Covered
 
   **i. Source code files that may lack proper header or prologue.**
