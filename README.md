@@ -1,26 +1,30 @@
 # CodeScanner
 
-This is a Python 3 command-line program to scan scientific source 
+This is a **Python 3** command-line program used to scan scientific source 
 codes for security flaws, as well as raise warnings and flags for 
 best as well as possible poor scientific programming practices. This 
 code was developed in NOAA's Office of Satellite Products and Operations 
 (NOAA/OSPO). To this end, it runs several well-known static command-line 
 tools (**cppcheck**, **flawfinder**, **shellcheck**), as well as parses 
-source codes manually and write an output text final report. This report 
-will be present in the directory being scanned (the directory containing 
-your source codes that is being analyzed).
+source codes manually and writes an output text final report. This report 
+will be present in root of the directory being scanned (the directory containing 
+your source codes that is being analyzed) with the name *codeScannerReport.txt*.
 
 For example, if your source-code directory contains Fortran 90 source 
 files, this command-line tool will list those Fortran 90 source files that 
 do not contain **IMPLICIT NONE**, whose use in Fortran 90 is highly recommended. 
-This program will also scan C/C++ source codes, and if C/C++ is present, make sure
+This program will also scan C/C++ source codes, and if C/C++ is present, will check to see if
 the **new** keyword is accompanied by a corresponding usage of **delete []** (C++). 
-It will also look to see to that pointer variables created with **alloc()** or **malloc()** 
-are checked for allocation success (e.g. comparison to **NULL** in an **if**-statement), 
-and so on and so forth. All results are written to an a single output report, 
+It will also look to see if pointer variables created with **alloc()** or **malloc()** 
+are checked for allocation success (e.g. comparison to **NULL** in a subsequent
+**if**-statement), and so on and so forth. False-positives are possible for most
+items described below. All results are written to an a single output report, 
 with the exception of the results from *flawfinder*, *shellcheck*, and *cppcheck*, which
-are written to their own separate text-files (which also go to the directory 
-being scanned as their final destination).
+are written to their own separate text-files (which also go to the root of the directory 
+being scanned as their final destination). For most items, unless stated otherwise, 
+the names of the source files, line numbers, and source code for that line are written out.
+
+See the descriptions below in "Items Covered." 
      
 ## Version
 
@@ -361,6 +365,12 @@ to run this code directly with your local python interpreter (e.g. **/usr/bin/py
     
     Line 117:   iobuf = (byte1 *)malloc(row_bytes);
       ... WARNING: Variable may not have been checked for allocation and may be NULL ...
+      
+  **xxxx. C/C++ switch{} statements that may lack a default{ } clause or block**
+  
+    It's good practice that all switch{} statements in C/C++ have default clauses.
+    Those blocks of code that may lack a default clause are reported and written
+    to the output CodeScanner report, which the developer may review.
   
 ## @author: 
 
