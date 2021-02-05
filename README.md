@@ -132,7 +132,77 @@ to run this code directly with your local python interpreter (e.g. **/usr/bin/py
     Instances of possible magic numbers are reported for all languages. Magic numbers
     are hard-coded numbers that often appear in conditional statements (e.g. if, else,
     while statements); these numbers should be parameterized if possible.
+    
+  **xii. Instances of POINTER variables in Fortran 90+ codes that do not initialize to NULL**
+  
+    It is good practice to initialize Fortran POINTER variables to NULL e.g.
+    INTEGER, POINTER, ALLOCATABLE :: x => NULL(). Those instances where NULL is not
+    used are listed in the output report.
+    
+  **xiii. Instances of use of GOTO in FORTRAN codes.**
+  
+    An outdated practice. Should be replaced with CYCLE and EXIT statements for control-flow
+    of loops.
+    
+  **xiv. Fortran source files that lack use of IMPLICIT NONE.**
 
+    It's good practice to use IMPLICIT NONE in all FORTRAN codes (including Fortran 90+).
+    Those source files in the input directory, being scanned, will be listed in the output
+    CodeScanner report. Fortran MODULE files are ignored.
+    
+  **xv. Fortran usage of IMPLICIT variables.**
+  
+    Usage of IMPLICIT variables may be outdated. Instances of usage where variables are 
+    declared as IMPLICIT are listed in the output report.
+    
+  **xvi. Fortran instances of usage of EQUIVALENCE**
+  
+    Another outdated Fortran method. EQUIVALENCE and its usage are listed in the output report.
+    
+  **xvii. Instances of Fortran COMMON block**
+  
+    The outdated usage of COMMON blocks are listed in the Fortran output report.
+    
+  **xviii. Instances of INCLUDE in Fortran**
+  
+    Usage of FORTRAN INCLUDE statements are listed. Again, this is outdated.
+    
+  **xix. Instances of Fortran numbered loops**
+  
+    Like GOTO statements, which numbered loops and statements often come hand-in-hand with,
+    lines with numbered loops are listed in the output report.
+    
+  **xx. Fortran PRINT statements**
+  
+    Fortran PRINT statements should only be used for console output, and never with file
+    handles (e.g. to write to a file). To this end, WRITE should be used. PRINT statements
+    are listed so the programmer may view them in the CodeScanner output report.
+    
+  **xxi. Fortran WRITE statements **
+    
+    Instances of Fortran WRITE statements are written to the output CodeScaner report.
+    
+  **xxii. Usage of CALL EXIT in Fortran codes**
+  
+    Usage of CALL EXIT(N) is outdated. Instances are listed in the output report
+    (lines that contain these statements), should they exist.
+    
+  **xxiii. Variable declarations that do not use KIND keyword**
+  
+    It's good practice in Fortran codes, to use the KIND keyword when declaring variables
+    (e.g. of those of type REAL or INTEGER). This helps with code portability. Lines that
+    lack use of KIND are listed in the output CodeScanner report.
+    
+  **xxiv. Instances of hard-coded array dimensions in Fortran code**
+  
+    It is less desirable to have hard-coded array dimension e.g. REAL,DIMENSION(10000) :: x.
+    The value of 10,000 should go into a MODULE file or configuration file. Those lines that
+    may contain hard-coded array declarations are listed.
+    
+  **xxv. **
+  
+  
+  
 ## @author: 
     Gerasimos Michalitsianos
     gerasimosmichalitsianos@gmail.com
