@@ -241,8 +241,10 @@ to run this code directly with your local python interpreter (e.g. **/usr/bin/py
     
   **xxvii. C/C++ source files that may have DEEP NESTING{}:**
   
-    Source files that may have very deep nesting, going as fas as 5+ levels deep, are listed.
-    Just so the programmer can review the algorithm.
+    Source files that may have very deep nesting, going as far as 5+ levels deep, are listed.
+    Just so the programmer can review the algorithm and decide if the nesting can go too far.
+    Again, no source code lines are listed here for this item, just source-code filenames.
+    The names of files only.
     
   **xxviii. C++ instances of CONSTRUCTOR, DECONSTRUCTOR, COPY CONSTRUCTOR, and/or ASSIGNMENT OPERATOR**
   
@@ -282,6 +284,12 @@ to run this code directly with your local python interpreter (e.g. **/usr/bin/py
   **xxxiii. C/C++ pointer indirection**
   
     Instances of pointer indirection are listed (four levels or more). This can be confusing.
+    For example, source code lines that contain something like:
+    
+      float***** data;
+      
+    are flagged and written to the output CodeScanner report. This is alot of pointer
+    indirection and may be confusing to those trying to read the code.
     
   **xxxiv. C/C++ instances of hard-coded array dimensions**
   
