@@ -178,7 +178,7 @@ to run this code directly with your local python interpreter (e.g. **/usr/bin/py
     handles (e.g. to write to a file). To this end, WRITE should be used. PRINT statements
     are listed so the programmer may view them in the CodeScanner output report.
     
-  **xxi. Fortran WRITE statements **
+  **xxi. Fortran WRITE statements**
     
     Instances of Fortran WRITE statements are written to the output CodeScaner report.
     
@@ -199,9 +199,22 @@ to run this code directly with your local python interpreter (e.g. **/usr/bin/py
     The value of 10,000 should go into a MODULE file or configuration file. Those lines that
     may contain hard-coded array declarations are listed.
     
-  **xxv. **
+  **xxv. Instances of C++ overloading of && , || , or "," (comma) operators **
+   
+    Some might agree its bad practice to overload the &&, ||, or "," operators in C++. This is
+    becuase these symbols are used elsewhere in the syntax of C/C++. Such possible instances
+    of this kind of overloading are listed in the output CodeScanner report.
+    
+  **xxvi. C++ lines with POINTER ARITHMETIC i.e. *( p+i )***
   
+    Pointer arithmetic is common in C/C++, and is great for code optimization, and is much
+    faster than array indexing. Nontheless, one must be careful to make sure the pointer arithmetic
+    does not get too complicated. Possible instances of pointer arithmetic are listed in the
+    output report for the programmer to review.
+    
+  **xxvii. C/C++ source files that may have DEEP NESTING{}: **
   
+    
   
 ## @author: 
     Gerasimos Michalitsianos
