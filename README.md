@@ -199,13 +199,13 @@ to run this code directly with your local python interpreter (e.g. **/usr/bin/py
     The value of 10,000 should go into a MODULE file or configuration file. Those lines that
     may contain hard-coded array declarations are listed.
     
-  **xxv. Instances of C++ overloading of && , || , or "," (comma) operators **
+  **xxv. Instances of C++ overloading of && , || , or "," (comma) operators**
    
     Some might agree its bad practice to overload the &&, ||, or "," operators in C++. This is
     becuase these symbols are used elsewhere in the syntax of C/C++. Such possible instances
     of this kind of overloading are listed in the output CodeScanner report.
     
-  **xxvi. C++ lines with POINTER ARITHMETIC i.e. *( p+i )***
+  **xxvi. C++ lines with POINTER ARITHMETIC i.e. \*( p+i )***
   
     Pointer arithmetic is common in C/C++, and is great for code optimization, and is much
     faster than array indexing. Nontheless, one must be careful to make sure the pointer arithmetic
