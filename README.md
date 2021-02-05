@@ -85,13 +85,12 @@ to run this code directly with your local python interpreter (e.g. **/usr/bin/py
            
     It is important for the variables or strings inside system() calls to be well-parameterized.
     The system() calls are written to the output report so the programmer may check to see they
-    are well-parameterized. Hard-coded strings are less desirable in system() calls e.g.
+    are well-parameterized. Hard-coded strings are less desirable in system() calls e.g (Perl):
     
       system( "rm outname.txt" ) or die("failure.");
       
     which may be better written as:
     
-      my command = "rm outname.txt";
       my @args = ("rm", "outname.txt");
       system(@args) == 0
         or die "system @args failed: $?";
