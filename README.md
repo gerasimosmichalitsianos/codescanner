@@ -251,7 +251,7 @@ to run this code directly with your local python interpreter (e.g. **/usr/bin/py
     Try to parameterize variables as much as possible. Possible instances of C magic numbers
     are listed in the output CodeScanner report.
     
-  **xxxiii. C/++ pointer indirection**
+  **xxxiii. C/C++ pointer indirection**
   
     Instances of pointer indirection are listed (four levels or more). This can be confusing.
     
