@@ -64,7 +64,7 @@ to run this code directly with your local python interpreter (e.g. **/usr/bin/py
 
 ## Output
 
-    A text file **codeScannerReport.txt** will be created in the output directory that
+    A text file codeScannerReport.txt will be created in the output directory that
     is being scanned (e.g. in the directory defined by $DIR above).
 
 ## Items Covered
