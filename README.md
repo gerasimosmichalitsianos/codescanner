@@ -258,6 +258,22 @@ to run this code directly with your local python interpreter (e.g. **/usr/bin/py
   **xxxiv. C/C++ instances of hard-coded array dimensions**
   
     Instances of possible hard-coded array dimensions are listed in the output CodeScanner report.
+    Declaring small, hard-coded arrays is generally acceptable by most coding standards e.g. 
+    small character arrays:
+    
+      char[8] name;
+      
+    This is fine and very common in C/C++. But in the case of:
+    
+      double[100000] data;
+      
+    Dynamic memory allocation really should be used (e.g. new and delete [ ] in C++ and
+    free() and malloc() in C codes). 
+    
+    For this item, instances of hard-coded arrays are reported in C/C++ source files, and those
+    lines containing such are written to the output report. It is then up to the 
+    programmer to view the output report from CodeScanner and decide whether these are 
+    acceptable or not.
   
   **xxxv. C++ usage of NULL instead of nullptr**
   
@@ -265,6 +281,17 @@ to run this code directly with your local python interpreter (e.g. **/usr/bin/py
     CodeScanner output report.
     
   **xxxvi. C/Fortran interoperability**
+  
+    For this item, its important to align each declaration type name, avoiding long or 
+    continuation lines when declaring variables passed from the C to the Fortran. Possible
+    lines that are too long containing the C-Fortran arguments are reported.
+    
+  **xxxvii. C/C++ interoperability**
+  
+    Use of extern "C" should be used to call C routines from C++. Lines with extern "C" are
+    reported to the output CodeScanner report so the programmer may view them.
+    
+  **xxxviii. **
   
 ## @author: 
     Gerasimos Michalitsianos
