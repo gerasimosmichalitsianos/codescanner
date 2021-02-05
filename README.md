@@ -184,11 +184,13 @@ to run this code directly with your local python interpreter (e.g. **/usr/bin/py
   **xv. Fortran usage of IMPLICIT variables.**
   
     Usage of IMPLICIT variables may be outdated. Instances of usage where variables are 
-    declared as IMPLICIT are listed in the output report.
+    declared as IMPLICIT are listed in the output report, including the source code 
+    filenames, line numbers, and corresponding code on that line.
     
   **xvi. Fortran instances of usage of EQUIVALENCE**
   
-    Another outdated Fortran method. EQUIVALENCE and its usage are listed in the output report.
+    Another outdated Fortran method. EQUIVALENCE and its usage (filenames, line numbers, and
+    code that uses EQUIVALENCE) are listed in the output report.
     
   **xvii. Instances of Fortran COMMON block**
   
@@ -370,16 +372,30 @@ to run this code directly with your local python interpreter (e.g. **/usr/bin/py
   
     It's good practice that all switch{} statements in C/C++ have default clauses.
     Those blocks of code that may lack a default clause are reported and written
-    to the output CodeScanner report, which the developer may review.
+    to the output CodeScanner report, which the developer may review. If a switch{}
+    statement is found without a default{} clause, then the filename and lines are
+    reported e.g.
+    
+      1. /home/bob/myfile.c
+    
+        int a = 10;
+        switch(a){
+          case 0:
+            printf("case 0");
+            break;
+          case 1:
+            printf("case 1");
+            break;
+        }
   
 ## @author: 
 
-    Gerasimos Michalitsianos
+    Gerasimos "Geri" Michalitsianos
     gerasimosmichalitsianos@gmail.com
     4 February, 2021
     
-    Also, this project would not have been possible without
-    the extreme professionalism, diligence, and guidence of a
-    Mr. Ian Simpson, a scientific programmer at NOAA. 
+    Also, this project would not have been remotely possible without
+    the extreme professionalism, diligence, vast programming knowledge,
+    and guidence of a Mr. Ian Simpson, a scientific programmer at NOAA. 
     
     Thank you Ian.
