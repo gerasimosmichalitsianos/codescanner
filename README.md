@@ -24,7 +24,7 @@ are written to their own separate text-files (which also go to the root of the d
 being scanned as their final destination). For most items, unless stated otherwise, 
 the names of the source files, line numbers, and source code for that line are written out.
 
-See the descriptions below in "Items Covered." 
+See the descriptions below in "Items Covered."
      
 ## Version
 
@@ -377,3 +377,9 @@ to run this code directly with your local python interpreter (e.g. **/usr/bin/py
     Gerasimos Michalitsianos
     gerasimosmichalitsianos@gmail.com
     4 February, 2021
+    
+    Also, this project would not have been possible without
+    the extreme professionalism, diligence, and guidence of a
+    Mr. Ian Simpson, a scientific programmer at NOAA. 
+    
+    Thank you Ian.
