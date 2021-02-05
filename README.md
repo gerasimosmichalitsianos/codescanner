@@ -261,7 +261,10 @@ to run this code directly with your local python interpreter (e.g. **/usr/bin/py
   
   **xxxv. C++ usage of NULL instead of nullptr**
   
-    Modern C++ should use nullptr instead of NULL. Lines that 
+    Modern C++ should use nullptr instead of NULL. Lines that use NULL are listed in the 
+    CodeScanner output report.
+    
+  **xxxvi. C/Fortran interoperability**
   
 ## @author: 
     Gerasimos Michalitsianos
