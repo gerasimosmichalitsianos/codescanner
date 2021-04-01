@@ -274,6 +274,6 @@ class CCPPScanner( Scanner ):
       TestString=''
       for Char in CCPPSrcCode:
         if Char in TestCurlyBraceChars: TestString += Char
-      if '{{{{{{' in TestString or '}}}}}}' in TestString:
+      if '{{{{{{{' in TestString or '}}}}}}}' in TestString:
         FileNamesWithPossibleDeepNesting.append( FileName )
     return FileNamesWithPossibleDeepNesting 

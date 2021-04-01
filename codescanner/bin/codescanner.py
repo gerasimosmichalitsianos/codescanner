@@ -11,6 +11,7 @@ import pkg_resources
 from scanner import Scanner
 from fortranscanner import FortranScanner
 from ccppscanner import CCPPScanner
+from idlscanner import IDLScanner
 
 class directoryscanner(object): 
 	
@@ -119,8 +120,8 @@ class directoryscanner(object):
       'V','Files that may have lines with LEADING TABS: ',
       ReportWriter )
     LinesWithLeadingTabs = DirectoryScanner.GetLinesWithLeadingTabs()
-    Scanner.WriteFileNamesAndLinesToReport( 
-      'Files with lines that contain LEADING TABS' , LinesWithLeadingTabs, ReportWriter,None )
+    Scanner.WriteFileNamesToReport( 
+      'Files with lines that contain LEADING TABS' , LinesWithLeadingTabs, ReportWriter )
 
     Scanner.WriteItemHeader(
       'VI','Files that may have lines with HARD CODED IP addresses: ',
@@ -159,6 +160,7 @@ class directoryscanner(object):
     Scanner.WriteItemHeader(
       'XI','Files and lines with possible HARD-CODED NUMBERS (MAGIC NUMBERS): ',ReportWriter )
     LinesWithMagicNumbers = DirectoryScanner.LinesWithMagicNumbersAnyLanguage()
+    
     Scanner.WriteFileNamesAndLinesToReport( 
       'Files and lines with possible MAGIC NUMBERS ' , LinesWithMagicNumbers , ReportWriter, None )
     DirectoryScanner.close()
@@ -256,7 +258,7 @@ class directoryscanner(object):
       'C++ instances of OPERATOR OVERLOADING { "," , "&&", "||" } ' , LinesWithOperatorOverloading, ReportWriter, None  )
 
     Scanner.WriteItemHeader( 
-      'XXVI' , 'C++ lines with POINTER ARITHMETIC i.e. *( p+i ) : ', ReportWriter ) 
+      'XXVI' , 'C/C++ lines with POINTER ARITHMETIC i.e. *( p+i ) : ', ReportWriter ) 
     LinesWithPointerArithmetic = CCPPReader.LinesWithPointerArithmetic() 
     Scanner.WriteFileNamesAndLinesToReport( 
       'C++ instances of POINTER ARITHMETIC: ' , LinesWithPointerArithmetic, ReportWriter, None  )
@@ -340,8 +342,27 @@ class directoryscanner(object):
     Scanner.WriteFileNamesAndLinesToReport( 
       'C/C++ POINTERs to memory blocks, checking alloc(),malloc() for success' , LinesCheckingForAllocationSuccess, ReportWriter, None  )
     CCPPReader.SwitchStatementsWithoutDefault(ReportWriter,'XXXX')
-    ReportWriter.close()
     CCPPReader.close()
+
+    # new addition c. 8 February 2020
+    # (IDL, the Interactive Data Language)
+    # ------------------------------------
+
+    '''
+    IDLReader = IDLScanner( self.InputDirectory )
+    print IDLReader.GetSourceCodeDirectoryFileNames('IDL')
+    print
+    sys.exit()
+    print IDLReader.InstancesOfIDLGoTo()
+    print
+    print IDLReader.InstancesOfIDLOpen()
+    print
+    print IDLReader.InstancesOfIDLClose()
+    print
+    '''
+    ReportWriter.close()
+    #IDLReader.close()
+    
 
 def usage(): 
 		

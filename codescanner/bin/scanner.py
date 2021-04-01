@@ -21,7 +21,8 @@ class Scanner(object):
     'C++'     : [ 'C','c++','cc','cpp','cxx','pcc','h' ],
     'C'       : [ 'c', 'ec' , 'pgc' ],
     'CorC++'  : [ 'hpp','C','c++','cc','cpp','cxx','pcc','h', 'c', 'ec' , 'pgc', 'h' ],
-    'Header' :  [ 'h' ]
+    'Header'  : [ 'h' ],
+    'IDL'     : [ 'pro' ]
   }
 
   # extensions for non-source code files
@@ -185,6 +186,12 @@ class Scanner(object):
 
   @staticmethod
   def WriteFileNamesToReport( Message,FileNames,ReportWriter ):
+    if type( FileNames ) is dict:
+      FileNameKeys=[]
+      for Key in list(FileNames.keys()):
+        FileNameKeys.append(Key)
+      FileNames = FileNameKeys
+
     if len(FileNames)<1:
       ReportWriter.write('%s\n'%('   No instances found for: '+Message ))
       ReportWriter.write('%s\n'%' ')
@@ -376,7 +383,17 @@ class Scanner(object):
 
   def LinesWithMagicNumbersAnyLanguage(self):
     # look for lines with operators < , > , <=, => , etc. and with number greater than 9
-    return self.SearchFileNamesWithRegex( r'(?:if|for|else|elif|while)(.*)[<>=]+[ \t]*(?:[1-9][0-9]+|9)' , None  )
+    InitialResults = self.SearchFileNamesWithRegex( r'(?:if|for|else|elif|while)(.*)[<>=]+[ \t]*(?:[1-9][0-9]+|9)' , None  )
+    
+    # filter out the results 
+    OutResults={}
+    for FileName,Lines in iter(InitialResults.items()):
+      FilteredLines=[]
+      for Line in Lines:
+        if not Line.lower().strip().startswith('print'):
+          FilteredLines.append(Line)
+      OutResults[FileName]=FilteredLines
+    return OutResults 
 
   def GetLinesWithSystemCalls(self):
     return self.SearchFileNamesWithRegex( r'(.*)system[ \t]*\((.*)\)' , None )
