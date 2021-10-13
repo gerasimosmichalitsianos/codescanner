@@ -386,12 +386,27 @@ to run this code directly with your local python interpreter (e.g. **/usr/bin/py
             printf("case 1");
             break;
         }
+        
+  **xxxxi. Interactive Data Language (IDL) Usage of GOTO statements
   
+    Filenames and lines with usage of GOTO in IDL is reported.
+  
+  **xxxxii. IDL OPEN statements
+  
+    Filenames and lines of file OPEN statements are reported for the developer to review manually.
+    These OPEN statements can be checked for matching CLOSE statements (see next section).
+    
+  **xxxxiii. IDL CLOSE statements
+  
+    Filenames and lines of file CLOSE statements are reported for the developer to review manually.
+    These CLOSE statements can be checked for matching OPEN statements (see previous section).
+    
+ 
 ## @author: 
 
     Gerasimos "Geri" Michalitsianos
     gerasimosmichalitsianos@gmail.com
-    4 February, 2021
+    13 October 2021
     
     Also, this project would not have been remotely possible without
     the extreme professionalism, diligence, vast programming knowledge,
