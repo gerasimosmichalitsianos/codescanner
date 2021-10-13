@@ -387,16 +387,16 @@ to run this code directly with your local python interpreter (e.g. **/usr/bin/py
             break;
         }
         
-  **xxxxi. Interactive Data Language (IDL) Usage of GOTO statements
+  **xxxxi. Interactive Data Language (IDL) Usage of GOTO statements**
   
     Filenames and lines with usage of GOTO in IDL is reported.
   
-  **xxxxii. IDL OPEN statements
+  **xxxxii. IDL OPEN statements**
   
     Filenames and lines of file OPEN statements are reported for the developer to review manually.
     These OPEN statements can be checked for matching CLOSE statements (see next section).
     
-  **xxxxiii. IDL CLOSE statements
+  **xxxxiii. IDL CLOSE statements**
   
     Filenames and lines of file CLOSE statements are reported for the developer to review manually.
     These CLOSE statements can be checked for matching OPEN statements (see previous section).
