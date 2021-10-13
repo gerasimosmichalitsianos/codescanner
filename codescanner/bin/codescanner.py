@@ -344,25 +344,35 @@ class directoryscanner(object):
     CCPPReader.SwitchStatementsWithoutDefault(ReportWriter,'XXXX')
     CCPPReader.close()
 
-    # new addition c. 8 February 2020
+    # new addition c. 13 October 2021 
     # (IDL, the Interactive Data Language)
     # ------------------------------------
-
-    '''
     IDLReader = IDLScanner( self.InputDirectory )
-    print IDLReader.GetSourceCodeDirectoryFileNames('IDL')
-    print
-    sys.exit()
-    print IDLReader.InstancesOfIDLGoTo()
-    print
-    print IDLReader.InstancesOfIDLOpen()
-    print
-    print IDLReader.InstancesOfIDLClose()
-    print
-    '''
-    ReportWriter.close()
-    #IDLReader.close()
+    Scanner.WriteItemHeader( 
+      'XXXXI' , 'instances of usage of GOTO in IDL source codes: ', ReportWriter ) 
+    FileNamesAndLinesWithGoToIDL = IDLReader.InstancesOfIDLGoTo() 
+    Scanner.WriteFileNamesAndLinesToReport( 
+      'instances of usage of GOTO in IDL source codes' , FileNamesAndLinesWithGoToIDL, ReportWriter, None  )
     
+    Scanner.WriteItemHeader( 
+      'XXXXII' , 'instances of OPEN statements in IDL source codes: ', ReportWriter ) 
+    FileNamesAndLinesWithOpenIDL = IDLReader.InstancesOfIDLOpen() 
+    Scanner.WriteFileNamesAndLinesToReport( 
+      'instances of OPEN statements in IDL source codes' , FileNamesAndLinesWithOpenIDL, ReportWriter, None  )
+
+    Scanner.WriteItemHeader( 
+      'XXXXIII' , 'instances of CLOSE statements in IDL source codes: ', ReportWriter ) 
+    FileNamesAndLinesWithCloseIDL = IDLReader.InstancesOfIDLClose() 
+    Scanner.WriteFileNamesAndLinesToReport( 
+      'instances of CLOSE statements in IDL source codes' , FileNamesAndLinesWithCloseIDL, ReportWriter, None  )
+
+    Scanner.WriteItemHeader( 
+      'XXXXIV' , 'loops in IDL codes that do not use N_ELEMENTS (may cause array out of bounds): ', ReportWriter ) 
+    FileNamesAndLinesWithoutN_elements = IDLReader.InstancesOfIDLLoopsWithoutN_elements() 
+    Scanner.WriteFileNamesAndLinesToReport( 
+      'loops in IDL codes that do not use N_ELEMENTS (may cause array out of bounds):' ,FileNamesAndLinesWithoutN_elements, ReportWriter, None  )
+    IDLReader.close()
+    ReportWriter.close() 
 
 def usage(): 
 		
@@ -377,7 +387,7 @@ def usage():
     @company     : NOAA/SGT, Inc.
     @email       : gerasimos.michalitsianos@noaa.gov
     @phone       : 301-683-3267
-    Last Updated : 5 February 2021 
+    Last Updated : 13 October 2021 
 
     --------
     PURPOSE:

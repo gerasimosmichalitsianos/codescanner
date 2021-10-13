@@ -16,3 +16,6 @@ class IDLScanner(Scanner):
 
   def InstancesOfIDLClose(self):
     return self.SearchFileNamesWithRegex( r'(.*)close(.*)*' , 'IDL' )
+
+  def InstancesOfIDLLoopsWithoutN_elements(self):
+    return self.SearchFileNamesWithRegex( r'(.*)(?:for|while)(.*)do(.*)', 'IDL' )
