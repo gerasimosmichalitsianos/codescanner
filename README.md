@@ -29,7 +29,7 @@ See the descriptions below in "Items Covered."
 ## Version
 
     CodeScanner Version 1.0.0
-    4 February 2021
+    13 October 2021
 
 ## Installation
 
