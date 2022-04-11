@@ -405,7 +405,7 @@ to run this code directly with your local python interpreter (e.g. **/usr/bin/py
 ## @author: 
 
     Gerasimos "Geri" Michalitsianos
-    gerasimosmichalitsianos@gmail.com
+    lakithra@protonmail.com
     13 October 2021
     
     Also, this project would not have been remotely possible without
