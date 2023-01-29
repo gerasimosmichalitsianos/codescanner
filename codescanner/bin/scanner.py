@@ -22,6 +22,7 @@ class Scanner(object):
     'C'       : [ 'c', 'ec' , 'pgc' ],
     'CorC++'  : [ 'hpp','C','c++','cc','cpp','cxx','pcc','h', 'c', 'ec' , 'pgc', 'h' ],
     'Header'  : [ 'h' ],
+    'Javascript' : [ '.js' ],
     'IDL'     : [ 'pro' ]
   }
 
@@ -107,13 +108,20 @@ class Scanner(object):
     contents as a Python dictionary{} in the source code directory,
     or only those for a specific language.
     '''
-    FileNamesAndLines = {}
+    FileNamesAndLines = dict() 
     for SubDir,SubDirs,FileList in os.walk( self.Directory ):
       for FileName in FileList:
         if self.IsSourceCodeFile( FileName, Language ):
           FullFileNamePath = os.path.abspath( os.path.join( SubDir, FileName ))
-          FileNamesAndLines[ FullFileNamePath ] = [ 
-            Line.rstrip() for Line in open( FullFileNamePath, 'r').readlines() ]
+          Lines   = list()
+          try:
+            Lines = open( FullFileNamePath, 'r' ).readlines()
+          except Exception as e:
+            Lines = open( FullFileNamePath, 'r', encoding='ISO-8859-1' ).readlines()
+          if len( Lines )<1: 
+            print("WARNING: unable to read lines in file (or file is empty): ")
+            print(f"  {FullFileNamePath}" )
+          FileNamesAndLines[ FullFileNamePath ] = [ Line.rstrip() for Line in Lines ]
     return FileNamesAndLines
 
   def SearchFileNamesWithRegex(self,Pattern,SourceFileType=None,IgnoreCase=True):
@@ -135,8 +143,16 @@ class Scanner(object):
       # Get lines from source code file. Replace any comment
       # lines with the empty string ''
       # ------------------------------------------------------
+      LinesWithComments = list()
 
-      LinesWithComments = open(FileName,'r').readlines()
+      try:
+        LinesWithComments = open( FileName,'r' ).readlines()
+      except Exception as e:
+        LinesWithComments = open( FileName,'r', encoding='ISO-8859-1' ).readlines()
+      if len( LinesWithComments )<1:
+        print("WARNING (fatal): unable to read lines in file (or file is empty): ")
+        print(f"  {FileName}" )
+
       LinesWithoutComments = Scanner.RemoveCommentsFromFile( FileName )
       LinesWithoutCommentsFilled = Scanner.FillCommentLines( 
         LinesWithComments, LinesWithoutComments)
@@ -276,8 +292,11 @@ class Scanner(object):
     os.remove('temp.txt')
     outname = os.path.basename(FileName)+'.--original-dir'
     if os.path.isfile( outname ):
-      lines=open(outname,'r').readlines()
-      outlines=[]
+      try:
+        lines=open(outname,'r').readlines()
+      except Exception as e:
+        lines=open(outname, encoding = 'ISO-8859-1').readlines()
+      outlines=list()
       for line in lines: outlines.append(line.rstrip())
       os.remove(outname)
       return outlines
@@ -390,7 +409,7 @@ class Scanner(object):
     for FileName,Lines in iter(InitialResults.items()):
       FilteredLines=[]
       for Line in Lines:
-        if not Line.lower().strip().startswith('print'):
+        if not Line.lower().strip().startswith('print') and ( 'cin' not in Line.lower().strip() ) and ( 'cout' not in Line.lower().strip() ):
           FilteredLines.append(Line)
       OutResults[FileName]=FilteredLines
     return OutResults 

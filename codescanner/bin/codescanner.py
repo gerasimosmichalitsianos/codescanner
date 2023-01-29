@@ -11,7 +11,6 @@ import pkg_resources
 from scanner import Scanner
 from fortranscanner import FortranScanner
 from ccppscanner import CCPPScanner
-from idlscanner import IDLScanner
 
 class directoryscanner(object): 
 	
@@ -37,7 +36,7 @@ class directoryscanner(object):
     if len( CCPPFileNames )>0:
       FlawFinderFile = os.path.join( self.OutputDirectory, 'ALL_FLAWFINDER.txt' )
       if os.path.isfile( FlawFinderFile ): os.remove( FlawFinderFile )
-      FlawFinderCommand = ' '.join( ['flawfinder --minlevel=5 --falsepositives --singleline ', \
+      FlawFinderCommand = ' '.join( ['flawfinder --minlevel=3 --falsepositives --singleline ', \
         self.InputDirectory,' 2>&1 | tee ', FlawFinderFile ])
       Scanner.RunCommand( FlawFinderCommand )
     
@@ -343,36 +342,7 @@ class directoryscanner(object):
       'C/C++ POINTERs to memory blocks, checking alloc(),malloc() for success' , LinesCheckingForAllocationSuccess, ReportWriter, None  )
     CCPPReader.SwitchStatementsWithoutDefault(ReportWriter,'XXXX')
     CCPPReader.close()
-
-    # new addition c. 13 October 2021 
-    # (IDL, the Interactive Data Language)
-    # ------------------------------------
-    IDLReader = IDLScanner( self.InputDirectory )
-    Scanner.WriteItemHeader( 
-      'XXXXI' , 'instances of usage of GOTO in IDL source codes: ', ReportWriter ) 
-    FileNamesAndLinesWithGoToIDL = IDLReader.InstancesOfIDLGoTo() 
-    Scanner.WriteFileNamesAndLinesToReport( 
-      'instances of usage of GOTO in IDL source codes' , FileNamesAndLinesWithGoToIDL, ReportWriter, None  )
-    
-    Scanner.WriteItemHeader( 
-      'XXXXII' , 'instances of OPEN statements in IDL source codes: ', ReportWriter ) 
-    FileNamesAndLinesWithOpenIDL = IDLReader.InstancesOfIDLOpen() 
-    Scanner.WriteFileNamesAndLinesToReport( 
-      'instances of OPEN statements in IDL source codes' , FileNamesAndLinesWithOpenIDL, ReportWriter, None  )
-
-    Scanner.WriteItemHeader( 
-      'XXXXIII' , 'instances of CLOSE statements in IDL source codes: ', ReportWriter ) 
-    FileNamesAndLinesWithCloseIDL = IDLReader.InstancesOfIDLClose() 
-    Scanner.WriteFileNamesAndLinesToReport( 
-      'instances of CLOSE statements in IDL source codes' , FileNamesAndLinesWithCloseIDL, ReportWriter, None  )
-
-    Scanner.WriteItemHeader( 
-      'XXXXIV' , 'loops in IDL codes that do not use N_ELEMENTS (may cause array out of bounds): ', ReportWriter ) 
-    FileNamesAndLinesWithoutN_elements = IDLReader.InstancesOfIDLLoopsWithoutN_elements() 
-    Scanner.WriteFileNamesAndLinesToReport( 
-      'loops in IDL codes that do not use N_ELEMENTS (may cause array out of bounds):' ,FileNamesAndLinesWithoutN_elements, ReportWriter, None  )
-    IDLReader.close()
-    ReportWriter.close() 
+    ReportWriter.close()
 
 def usage(): 
 		
@@ -387,7 +357,7 @@ def usage():
     @company     : NOAA/SGT, Inc.
     @email       : gerasimos.michalitsianos@noaa.gov
     @phone       : 301-683-3267
-    Last Updated : 13 October 2021 
+    Last Updated : 5 February 2021 
 
     --------
     PURPOSE:
