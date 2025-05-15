@@ -15,10 +15,10 @@ class Scanner(object):
   #   (5) C
   # -----------------------------------------------
   AllFileExtensions = { 
-    'Fortran' : [ 'f','F','f77','F77','for','FOR','FTN','ftn','pfo','f90','F90','f95','f95' ],
+    'Fortran' : [ 'pyf', 'f','F','f77','F77','for','FOR','FTN','ftn','pfo','f90','F90','f95','F95' ],
     'Python'  : [ 'py' ],
     'Perl'    : [ 'pl' ],
-    'C++'     : [ 'C','c++','cc','cpp','cxx','pcc','h' ],
+    'C++'     : [ 'hpp', 'C','c++','cc','cpp','cxx','pcc','h' ],
     'C'       : [ 'c', 'ec' , 'pgc' ],
     'CorC++'  : [ 'hpp','C','c++','cc','cpp','cxx','pcc','h', 'c', 'ec' , 'pgc', 'h' ],
     'Header'  : [ 'h' ],
@@ -289,7 +289,8 @@ class Scanner(object):
     '''
     cmd = 'cloc '+FileName+' --strip-comments --original-dir > temp.txt'
     os.system(cmd)
-    os.remove('temp.txt')
+    if os.path.isfile('temp.txt'):
+      os.remove('temp.txt')
     outname = os.path.basename(FileName)+'.--original-dir'
     if os.path.isfile( outname ):
       try:

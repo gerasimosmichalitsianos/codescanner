@@ -225,7 +225,7 @@ class directoryscanner(object):
     Scanner.WriteItemHeader( 
        'XXI' , 'FORTRAN source files WRITE statements: ', ReportWriter ) 
     Scanner.WriteFileNamesAndLinesToReport( 
-      'FORTRAN PRINT statements' , LinesWithWriteStatements, ReportWriter, None  )
+      'FORTRAN WRITE statements' , LinesWithWriteStatements, ReportWriter, None  )
 
     LinesWithCallExitStatements = FortranReader.InstancesOfCallExitStatements()
     Scanner.WriteItemHeader( 

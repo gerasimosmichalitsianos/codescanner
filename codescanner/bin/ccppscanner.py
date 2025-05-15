@@ -117,9 +117,15 @@ class CCPPScanner( Scanner ):
 
     for FileName in FileNames:
 
-      FileReader=open(FileName,'r')
-      Contents=FileReader.read()
-      FileReader.close()
+      try:
+        FileReader = open(FileName,'r')
+        Contents = FileReader.read()
+        FileReader.close()
+      except Exception as e:
+        FileReader = open( FileName,'r', encoding='ISO-8859-1')
+        Contents=FileReader.read()
+        FileReader.close()
+      finally: pass
 
       SwitchStatementsNoDefault=[]
       OccurencesOfSwitch = [ s.start() for s in \
@@ -177,7 +183,10 @@ class CCPPScanner( Scanner ):
 
       # Get only non-comment lines from C/C++ source file
       # -------------------------------------------------
-      LinesWithComments = open(FileName,'r').readlines()
+      try:
+        LinesWithComments = open(FileName,'r').readlines()
+      except Exception as e:
+        LinesWithComments = open(FileName,'r',encoding='ISO-8859-1').readlines() 
       LinesWithoutComments = Scanner.RemoveCommentsFromFile( FileName )
       LinesWithoutCommentsFilled = Scanner.FillCommentLines(
         LinesWithComments, LinesWithoutComments)
@@ -268,9 +277,11 @@ class CCPPScanner( Scanner ):
     # is found in the appended string, add the 
     # filename to the list defined above. 
     # --------------------------------------------
-
     for FileName in RelevantFileNamesCCPP:
-      CCPPSrcCode = open( FileName,'r').read()
+      try:
+        CCPPSrcCode = open( FileName,'r').read()
+      except Exception as e:
+        CCPPSrcCode = open( FileName,'r',encoding='ISO-8859-1').read()
       TestString=''
       for Char in CCPPSrcCode:
         if Char in TestCurlyBraceChars: TestString += Char
